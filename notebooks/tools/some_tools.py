@@ -5,8 +5,10 @@ from matplotlib import pyplot as plt
 from skimage import filters, measure, img_as_ubyte
 from scipy.ndimage.morphology import binary_fill_holes
 from skimage.transform import rescale
-
-
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+import multiprocessing as mp 
+from multiprocessing import Pool
 		
 def folder_path(dic, rute = ''): 
     ''' From a dict with the folders scheme
@@ -108,3 +110,52 @@ def downsize_image(fundus_picture, image_size=[512, 512]):
     resized_fundus_picture = fundus_picture.resize(size=target_size)
 
     return resized_fundus_picture
+
+
+def preprocess_and_save(pd_labels, save_to, cut_text=False ):
+    '''
+    Preprocesses the images and saves the result.
+    At the end shows the last image before and after preproccessing.
+    '''
+
+    for image_dir in pd_labels.file_path:
+        new_name = path.split(image_dir.with_suffix('.png'))[-1]
+        im = Image.open(image_dir)
+        if cut_text:
+            left = 200
+            right = 1100
+            top = 30
+            bottom = im.getbbox()[3]
+            im_cropped = im.crop((left,top,right,bottom)) # recorta la parte de la imagen con inscripciones.
+            im_fov = crop_fov_pill(im_cropped)
+        else:
+            im_fov = crop_fov_pill(im)
+
+        im_fov = downsize_image(im_fov)
+        
+        im_fov.save(save_to/new_name)
+    
+    fig, ax = plt.subplots(1, 2, figsize=(10, 10))
+
+    ax[0].imshow(im)
+
+    ax[1].imshow(im_fov,cmap=plt.cm.gray) 
+    plt.show()
+
+
+def parallel_arg(df,save_path):
+    '''
+    Splits the dataset into as many chunks as
+    logical processors are in the cpu.
+    '''
+    chunks_count = mp.cpu_count()
+    chunk_size = df.shape[0]//chunks_count
+    chunk_args = []
+    chunk_start = 0
+    for i in range(chunks_count-1):
+        chunk_args.append((df.iloc[chunk_start:chunk_size*(i+1)],save_path))
+        chunk_start += chunk_size
+    
+    chunk_args.append((df.iloc[chunk_start:],save_path))
+
+    return chunk_args
