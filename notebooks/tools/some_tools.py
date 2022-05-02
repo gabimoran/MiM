@@ -99,7 +99,7 @@ def downsize_image(fundus_picture, image_size=[512, 512]):
     '''
 
     # get the proper size
-    if fundus_picture.size[0] >= fundus_picture.size[1]:
+    if fundus_picture.size[0] <= fundus_picture.size[1]:
         factor = image_size[0] / fundus_picture.size[0]
     else:
         factor = image_size[0] / fundus_picture.size[1]
