@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from skimage import filters, measure, img_as_ubyte
-from scipy.ndimage.morphology import binary_fill_holes
+from scipy.ndimage import binary_fill_holes
 from skimage.transform import rescale
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -56,12 +56,12 @@ def get_fov_mask(fundus_picture):
     '''
 
     # sum the R, G, B channels to form a single image
-    sum_of_channels = np.asarray(np.sum(fundus_picture,axis=2), dtype=np.uint8)
+    # sum_of_channels = np.asarray(np.sum(fundus_picture,axis=2), dtype=np.uint8)
+    sum_of_channels = np.sum(fundus_picture,axis=2, dtype=np.uint8)
     # threshold the image using Otsu
     fov_mask = sum_of_channels > filters.threshold_otsu(sum_of_channels)
     # fill holes in the approximate FOV mask
     fov_mask = np.asarray(binary_fill_holes(fov_mask), dtype=np.uint8)
-
     return fov_mask
 	
 
@@ -112,7 +112,7 @@ def downsize_image(fundus_picture, image_size=[512, 512]):
     return resized_fundus_picture
 
 
-def preprocess_and_save(pd_labels, save_to, cut_text=False ):
+def preprocess_and_save(pd_labels, save_to, cut_text=False):
     '''
     Preprocesses the images and saves the result.
     At the end shows the last image before and after preproccessing.
@@ -122,25 +122,21 @@ def preprocess_and_save(pd_labels, save_to, cut_text=False ):
         new_name = path.split(image_dir.with_suffix('.png'))[-1]
         im = Image.open(image_dir)
         if cut_text:
+            im_np = np.array(im)
+            im_np[0:75,0:450] = 0 # esto es porque los nombres son mas largos
+            im = Image.fromarray(im_np)
             left = 200
-            right = 1100
+            right = 1050
             top = 30
-            bottom = im.getbbox()[3]
-            im_cropped = im.crop((left,top,right,bottom)) # recorta la parte de la imagen con inscripciones.
-            im_fov = crop_fov_pill(im_cropped)
-        else:
-            im_fov = crop_fov_pill(im)
-
+            bottom = im.getbbox()[3] - 3
+            im = im.crop((left,top,right,bottom)) # recorta la parte de la imagen con inscripciones.
+        
+        im_fov = crop_fov_pill(im)
+        
         im_fov = downsize_image(im_fov)
         
         im_fov.save(save_to/new_name)
-    
-    fig, ax = plt.subplots(1, 2, figsize=(10, 10))
-
-    ax[0].imshow(im)
-
-    ax[1].imshow(im_fov,cmap=plt.cm.gray) 
-    plt.show()
+    return
 
 
 def parallel_arg(df,save_path):
