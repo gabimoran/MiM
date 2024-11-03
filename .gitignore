@@ -1,0 +1,32 @@
+# Ignorar archivos de entorno y configuraciones del sistema
+.env
+*.env
+*.DS_Store
+
+# Ignorar archivos de compilación y temporales
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+
+
+# Ignorar configuraciones del IDE (VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Ignorar archivos de Jupyter Notebook outputs
+.ipynb_checkpoints/
+
+# Ignorar archivos grandes o de datos temporales
+*.csv
+*.h5
+*.model
+*.pkl
+*.parquet
+*.xlsx
+
+# Ignorar imagenes
+*.jpeg
+*.png
+*.jpg
+
