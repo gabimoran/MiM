@@ -2,9 +2,8 @@ from os import path, listdir, makedirs
 import numpy as np
 from matplotlib import pyplot as plt
 
-from skimage import filters, measure, img_as_ubyte
+from skimage import filters, measure
 from scipy.ndimage import binary_fill_holes
-from skimage.transform import rescale
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 import multiprocessing as mp 
@@ -93,26 +92,8 @@ def crop_fov_pill(fundus_picture):
     # crop the image and return
     return fundus_picture.crop((coordinates[1],coordinates[0],coordinates[3],coordinates[2]))
 
-def downsize_image(fundus_picture, image_size=[512, 512]):
-    '''
-    Downsize the input image to the target resolution
-    '''
 
-    # get the proper size
-    if fundus_picture.size[0] <= fundus_picture.size[1]:
-        factor = image_size[0] / fundus_picture.size[0]
-    else:
-        factor = image_size[0] / fundus_picture.size[1]
-    
-    target_size = (round(fundus_picture.size[0] * factor), round(fundus_picture.size[1] * factor))
-
-    # apply the transformation
-    resized_fundus_picture = fundus_picture.resize(size=target_size)
-
-    return resized_fundus_picture
-
-
-def preprocess_and_save(pd_labels, save_to, cut_text=False):
+def preprocess_and_save(pd_labels, save_to, image_size=[512, 512]):
     '''
     Preprocesses the images and saves the result.
     At the end shows the last image before and after preproccessing.
@@ -120,21 +101,9 @@ def preprocess_and_save(pd_labels, save_to, cut_text=False):
 
     for image_dir in pd_labels.file_path:
         new_name = path.split(image_dir.with_suffix('.png'))[-1]
-        im = Image.open(image_dir)
-        if cut_text:
-            im_np = np.array(im)
-            im_np[0:75,0:450] = 0 # esto es porque los nombres son mas largos
-            im = Image.fromarray(im_np)
-            left = 200
-            right = 1050
-            top = 30
-            bottom = im.getbbox()[3] - 3
-            im = im.crop((left,top,right,bottom)) # recorta la parte de la imagen con inscripciones.
-        
+        im = Image.open(image_dir)       
         im_fov = crop_fov_pill(im)
-        
-        im_fov = downsize_image(im_fov)
-        
+        im_fov = im_fov.resize(image_size)
         im_fov.save(save_to/new_name)
     return
 
