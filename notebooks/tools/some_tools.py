@@ -2,8 +2,9 @@ from os import path
 import numpy as np
 from skimage import filters, measure
 from scipy.ndimage import binary_fill_holes
-from PIL import Image
+from PIL import Image, ImageFile
 import multiprocessing as mp 
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 		
