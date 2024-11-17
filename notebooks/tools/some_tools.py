@@ -1,13 +1,11 @@
-from os import path, listdir, makedirs
+from os import path
 import numpy as np
-from matplotlib import pyplot as plt
-
 from skimage import filters, measure
 from scipy.ndimage import binary_fill_holes
-from PIL import Image, ImageFile
-ImageFile.LOAD_TRUNCATED_IMAGES = True
+from PIL import Image
 import multiprocessing as mp 
-from multiprocessing import Pool
+
+
 		
 def folder_path(dic, rute = ''): 
     ''' From a dict with the folders scheme
@@ -96,25 +94,27 @@ def crop_fov_pill(fundus_picture):
 def preprocess_and_save(pd_labels, save_to, image_size=[512, 512]):
     '''
     Preprocesses the images and saves the result.
-    At the end shows the last image before and after preproccessing.
     '''
-
     for image_dir in pd_labels.file_path:
-        new_name = path.split(image_dir.with_suffix('.png'))[-1]
-        im = Image.open(image_dir)       
-        im_fov = crop_fov_pill(im)
-        im_fov = im_fov.resize(image_size)
-        im_fov.save(save_to/new_name)
+        try:
+            new_name = path.split(image_dir.with_suffix('.png'))[-1]
+            im = Image.open(image_dir)       
+            im_fov = crop_fov_pill(im)
+            im_fov = im_fov.resize(image_size)
+            im_fov.save(save_to / new_name)
+        except Exception as e:
+            print(f"Error processing {image_dir}: {e}")
     return
 
 
 def parallel_arg(df,save_path):
     '''
     Splits the dataset into as many chunks as
-    logical processors are in the cpu.
+    logical processors are in the cpu,
+    or fewer if the dataset is small.
     '''
-    chunks_count = mp.cpu_count()
-    chunk_size = df.shape[0]//chunks_count
+    chunks_count = min(mp.cpu_count(), len(df))
+    chunk_size = len(df)//chunks_count
     chunk_args = []
     chunk_start = 0
     for i in range(chunks_count-1):
@@ -124,3 +124,4 @@ def parallel_arg(df,save_path):
     chunk_args.append((df.iloc[chunk_start:],save_path))
 
     return chunk_args
+
