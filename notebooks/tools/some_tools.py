@@ -113,7 +113,7 @@ def set_black_background(fundus_picture):
     freq_intensity = np.bincount(gray.ravel().astype(np.int64))
 
     # If mode is 255, then it means the background is white
-    if np.where(freq_intensity == freq_intensity.max())[0].item() == 255:
+    if np.isin(255, np.where(freq_intensity == freq_intensity.max())[0]):
         index = np.where(gray == 255)
         imagen_modified = fundus_picture.copy()
         imagen_modified[index[0],index[1],...] = 0
