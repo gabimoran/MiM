@@ -14,6 +14,6 @@ Este proyecto tiene como objetivo desarrollar un modelo de inteligencia artifici
 La detección temprana de la retinopatía diabética es clave para prevenir la ceguera irreversible. Sin embargo, la falta de acceso a oftalmólogos y la baja frecuencia de controles oftalmológicos dificultan la identificación de esta enfermedad. Este proyecto busca mejorar el proceso mediante la automatización de la evaluación de la calidad de las imágenes.
 
 ## Objetivos
-- Desarrollar un modelo entrenado espec´ıficamente para la clasificaci´on de calidad de im´agenes retinianas mediante una red ResNet-18 fine-tuned.
-- Evaluar el desempe˜no de GPT-4o sin entrenamiento adicional, en modalidades zero-shot y few-shot.
-- Comparar ambos enfoques en t´erminos de precisi´on, robustez, interpretabilidad y esfuerzo requerido para su implementaci´on.
+- Desarrollar un modelo entrenado específicamente para la clasificaci´on de calidad de imágenes retinianas mediante una red ResNet-18 fine-tuned.
+- Evaluar el desempeño de GPT-4o sin entrenamiento adicional, en modalidades zero-shot y few-shot.
+- Comparar ambos enfoques en términos de precisión, robustez, interpretabilidad y esfuerzo requerido para su implementación.
