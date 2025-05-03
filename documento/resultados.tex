@@ -1,0 +1,23 @@
+\chapter*{Resultados finales}
+\addcontentsline{toc}{chapter}{Resultados finales}
+
+Como se observa en el cuadro \ref{tab:resumen_resultados}, el modelo ResNet-18 fine-tuned presentó el mejor desempeño general en la tarea de clasificación de calidad de imágenes retinianas, alcanzando una exactitud del 97\% y un F1-score del 0.58 para la clase minoritaria (mala calidad). En contraste, las modalidades basadas en GPT-4o mostraron desempeños más limitados, particularmente en términos de precisión para la clase 1, con valores cercanos al 7-8\%. No obstante, ambas configuraciones de GPT-4o lograron recalls relativamente altos (69\% en modalidad zero-shot y 78\% en few-shot), lo que indica que el modelo tiende a identificar correctamente muchas imágenes de mala calidad, pero al costo de una gran cantidad de falsos positivos. Esta diferencia sugiere que, mientras la ResNet-18 ajustada toma decisiones más conservadoras pero precisas (dice que una imagen es mala cuando está muy segura, aunque eso implique no detectar todas las malas), GPT-4o tiene un umbral más permisivo: tiende a marcar muchas imágenes como malas, aunque no todas lo sean realmente. Esta conducta puede estar influenciada por el lenguaje del prompt o, en la modalidad few-shot, por la comparación visual directa con los ejemplos proporcionados. Estas observaciones resaltan tanto el potencial como las limitaciones actuales de los modelos multimodales de propósito general aplicados a tareas clínicas específicas.
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.6}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{|l|c|c|c|c|c|}
+			\hline
+			\textbf{Modelo / Modalidad} & \textbf{Accuracy} & \textbf{Precisión (clase 1)} & \textbf{Recall (clase 1)} & \textbf{F1-score (clase 1)} & \textbf{Entrada} \\
+			\hline
+			ResNet-18 fine-tuned &  0.97 & 0.73 & 0.49 & 0.58 & Imagen sola \\
+			
+			GPT-4o zero-shot (prompt simple) & 0.63 & 0.08 & 0.69 & 0.14 & Imagen + prompt \\
+			GPT-4o few-shot (ICL2) & 0.52 & 0.07 & 0.78 & 0.12 & Imagen compuesta (3) + prompt \\
+			\hline
+		\end{tabular}
+	}
+	\caption{Resumen de métricas principales para cada modelo y configuración evaluada. Las métricas se centran en la clase minoritaria (clase 1 = mala calidad).}
+	\label{tab:resumen_resultados}
+\end{table}

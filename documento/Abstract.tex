@@ -1,0 +1,10 @@
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\par This thesis addresses the problem of automatically assessing whether retinal images meet the quality requirements for clinical interpretation. It proposes and compares the performance of two approaches: a specifically trained convolutional model (ResNet-18 fine-tuned) and a general-purpose multimodal model (GPT-4o), evaluated under \textit{zero-shot} and \textit{few-shot} settings. Results show that the trained model achieved better precision and stability metrics, while GPT-4o reached high recall values but with a high rate of false positives. Although multimodal models require minimal initial implementation effort, their performance is strongly influenced by prompt design and example selection, which reintroduces a degree of developer intervention. Furthermore, as models provided as a service, they present limitations in terms of reproducibility, traceability, and control. It is concluded that, although GPT-4o does not yet have the robustness required to be used autonomously in sensitive clinical tasks, it could serve as an auxiliary tool in hybrid diagnostic systems, particularly in contexts with limited access to care.
+
+
+\vspace{1em}
+\noindent
+\textbf{Keywords:} Diabetic retinopathy, image quality assessment, \\
+medical image classification, multimodal models, GPT-4o, zero-shot learning.

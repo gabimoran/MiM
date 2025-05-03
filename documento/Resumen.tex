@@ -1,0 +1,9 @@
+\chapter*{Resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+
+\par Esta tesis aborda el problema de evaluar automáticamente la calidad adecuada para la interpretación clínica de imágenes retinianas. Se propone y compara el desempeño de dos enfoques: un modelo convolucional entrenado específicamente (ResNet-18 fine-tuned) y un modelo multimodal de propósito general (GPT-4o), evaluado en modalidades \textit{zero-shot} y \textit{few-shot}. Los resultados muestran que el modelo entrenado obtuvo mejores métricas de precisión y estabilidad, mientras que GPT-4o alcanzó valores elevados de recall, pero con una alta tasa de falsos positivos. Aunque los modelos multimodales requieren poco esfuerzo de implementación inicial, su rendimiento está fuertemente condicionado por el diseño del prompt y la selección de ejemplos, lo que reintroduce un grado de intervención por parte del investigador. Además, al tratarse de modelos ofrecidos como servicio, se identifican limitaciones en cuanto a reproducibilidad, trazabilidad y control. Se concluye que, si bien GPT-4o aún no tiene la robustez necesaria para ser utilizado de forma autónoma en tareas clínicas sensibles, podría integrarse como herramienta auxiliar en entornos híbridos de diagnóstico, especialmente en escenarios con barreras de acceso a la atención.
+
+\vspace{1em}
+\noindent
+\textbf{Palabras clave:} Retinopatía diabética, control de calidad de imágenes, \\
+clasificación de imágenes médicas, modelos multimodales, GPT-4o, aprendizaje \textit{zero-shot}.

@@ -90,9 +90,6 @@ def crop_fov(fundus_picture, fov_mask):
     Extract an approximate FOV mask, and crop the picture around it
     '''
 
-    #get the fov mask of the picture
-    fov_mask = get_fov_mask(fundus_picture)
-
     fov_mask = np.asarray(fov_mask, dtype=np.uint8)
     
     # get the coordinate of a bounding box around the fov mask

@@ -25,8 +25,23 @@ __pycache__/
 *.parquet
 *.xlsx
 
-# Ignorar imagenes
-*.jpeg
-*.png
-*.jpg
+# Archivos generados por LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.gz
+*.synctex*
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
 
+# Configuraciones del editor/IDE
+.vscode/
+.idea/
+
+RETINOGRAFIAS - Calidad/
+data/

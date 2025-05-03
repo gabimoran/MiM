@@ -1,0 +1,58 @@
+\documentclass[a4paper,12pt, final]{report}
+
+
+% Paquetes necesarios para la portada
+\usepackage[spanish]{babel}
+\usepackage{background}
+\usepackage{textpos}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{makecell} 
+\usepackage{array}
+
+
+\usepackage[
+backend=biber,
+style=apa,
+sortcites,
+url=true]{biblatex}
+\addbibresource{references.bib} 
+\usepackage[colorlinks=true, citecolor=blue,linkcolor=black, urlcolor=blue]{hyperref}
+
+
+\begin{document}
+	
+	% Incluir la portada
+	\input{Portada.tex}
+	
+	\input{Resumen.tex}
+	\input{Abstract.tex}
+	
+	% Tabla de Contenidos (Índice)
+	\thispagestyle{empty}  % Sin número de página en esta página
+	\newpage
+	\tableofcontents  % Genera el índice
+	\thispagestyle{empty}  % Sin número de página en el índice
+	
+	% Incluir la introducción
+	\input{Introduction.tex}
+	\input{Chapter1}
+	\input{Chapter2}
+	\input{Chapter3}
+	\input{Chapter4}
+	\input{Chapter5}
+	\input{Chapter6}
+	
+	\input{resultados}
+	\input{conclusiones}
+	\input{reflexion}
+	
+	\printbibliography[heading=bibintoc]
+	
+	\newpage
+	\input{Anexo.tex}
+	
+
+\end{document}
